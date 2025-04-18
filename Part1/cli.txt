@@ -1,0 +1,4 @@
+aws cloudformation validate-template --template-body file://nisarg_cf_infrastructure.yaml
+
+
+aws cloudformation create-stack --stack-name nisarg-hw3-stack --template-body file://nisarg_cf_infrastructure.yaml --capabilities CAPABILITY_IAM --parameters ParameterKey=EnvironmentType,ParameterValue=dev
