@@ -1,0 +1,32 @@
+1. List All S3 Buckets:
+aws s3 ls
+
+2. Create a New S3 Bucket and Upload a File:
+aws s3api create-bucket --bucket nisarg-hw3-part3-v1 --region us-east-1
+
+- Upload a file:
+aws s3 cp cli.txt s3://nisarg-hw3-part3-v1/
+
+3. Start and Stop an EC2 Instance:
+- Get list of EC2 instances and their IDs:
+aws ec2 describe-instances --query "Reservations[*].Instances[*].[InstanceId,State.Name,Tags]" --output table
+aws ec2 describe-instances --query "Reservations[*].Instances[*].[InstanceId, Tags[?Key==`Name`].Value, Tags]"
+
+- Stop an EC2 instance:
+aws ec2 stop-instances --instance-ids i-0f99ba37d61606004
+
+- Start an EC2 instance:
+aws ec2 start-instances --instance-ids i-0f99ba37d61606004
+
+- current status of EC2 instance:
+aws ec2 describe-instance-status --instance-ids i-0f99ba37d61606004
+
+4. Retrieve Logs from a Lambda Function:
+- List log groups to find Lambda's log group:
+aws logs describe-log-groups --query "logGroups[?starts_with(logGroupName,'/aws/lambda')].logGroupName"
+
+- Get the latest log stream name for the function (replace log group name):
+aws logs describe-log-streams --log-group-name /aws/lambda/LogS3Upload --order-by LastEventTime --descending --limit 1
+
+- Fetch logs:
+aws logs get-log-events --log-group-name /aws/lambda/LogS3Upload --log-stream-name '2025/04/18/[$LATEST]f925f7590bb14afcb0bfb1b28d2327be'
