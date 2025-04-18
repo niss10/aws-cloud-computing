@@ -1,0 +1,13 @@
+zip file:
+zip function.zip lambda_function.py
+
+creating role:
+aws iam create-role --role-name LambdaS3LoggingRole --assume-role-policy-document file://lambda-trust-policy.json
+
+attching IAM policy
+aws iam attach-role-policy --role-name LambdaS3LoggingRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+aws iam attach-role-policy --role-name LambdaS3LoggingRole --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+
+creating lambda function
+aws lambda create-function --function-name LogS3Upload --runtime python3.13 --role arn:aws:iam::600627355994:role/LambdaS3LoggingRole --handler lambda_function.handler --zip-file fileb://function.zip
